@@ -19,5 +19,5 @@ RUN chown -R www-data:www-data /var/www/html \
 # Exponer el puerto 80 (por defecto de Apache)
 EXPOSE 80
 
-# Comando por defecto para iniciar Apache en primer plano
+# Comando por defecto para iniciar Apache en primer planosssss
 CMD ["apache2-foreground"]
