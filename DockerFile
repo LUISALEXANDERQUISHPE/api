@@ -4,14 +4,20 @@ FROM php:8.1-apache
 # Activar el módulo de reescritura de Apache
 RUN a2enmod rewrite
 
-# Copiar los archivos de la API a la carpeta de trabajo de Apache
+# Instalar extensiones de PHP necesarias para PostgreSQL
+RUN apt-get update && apt-get install -y \
+    libpq-dev \
+    && docker-php-ext-install pdo_pgsql
+
+# Copiar los archivos de la API al directorio raíz de Apache
 COPY . /var/www/html/
 
-# Establecer los permisos correctos para los archivos de la API
-RUN chown -R www-data:www-data /var/www/html
+# Establecer los permisos correctos para los archivos
+RUN chown -R www-data:www-data /var/www/html \
+    && chmod -R 755 /var/www/html
 
-# Exponer el puerto 80 (puerto por defecto de Apache)
+# Exponer el puerto 80 (por defecto de Apache)
 EXPOSE 80
 
-# Definir el comando por defecto para iniciar Apache en primer plano
+# Comando por defecto para iniciar Apache en primer plano
 CMD ["apache2-foreground"]
