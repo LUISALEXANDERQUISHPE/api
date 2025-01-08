@@ -1,0 +1,17 @@
+# Usar una imagen base de PHP oficial con Apache
+FROM php:8.1-apache
+
+# Activar el módulo de reescritura de Apache
+RUN a2enmod rewrite
+
+# Copiar los archivos de la API a la carpeta de trabajo de Apache
+COPY . /var/www/html/
+
+# Establecer los permisos correctos para los archivos de la API
+RUN chown -R www-data:www-data /var/www/html
+
+# Exponer el puerto 80 (puerto por defecto de Apache)
+EXPOSE 80
+
+# Definir el comando por defecto para iniciar Apache en primer plano
+CMD ["apache2-foreground"]
